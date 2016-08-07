@@ -3,24 +3,27 @@ qnSetParamsEng=function(div){
 }
 
 qnAppEng=function(optDiv,params){
-	opt=params.options;
-	optDiv.setAttribute("class","ui-radio");
-	var inputDoms=[]; var inpIdx=0;
-	opt.forEach(function(o){
-		var inputHtml=document.createElement("input");
-		inputHtml.setAttribute("type","radio");
-		inputHtml.setAttribute("name","qnChoice");
-		inputHtml.setAttribute("id","qnChoice-"+inpIdx);
-		inputHtml.setAttribute("value",inpIdx);
-		var labelHtml=document.createElement("label");
-		labelHtml.setAttribute("for","qnChoice-"+inpIdx);
-		labelHtml.innerHTML=o;
-		optDiv.appendChild(inputHtml);
-		optDiv.appendChild(labelHtml);
-		inputDoms[inpIdx]=inputHtml;
-		inpIdx++;
-	});
-	$(optDiv).trigger("create");
+	var inputDoms;
+	(function init(){
+		opt=params.options;
+		optDiv.setAttribute("class","ui-radio");
+		var inpIdx=0; inputDoms=[];
+		opt.forEach(function(o){
+			var inputHtml=document.createElement("input");
+			inputHtml.setAttribute("type","radio");
+			inputHtml.setAttribute("name","qnChoice");
+			inputHtml.setAttribute("id","qnChoice-"+inpIdx);
+			inputHtml.setAttribute("value",inpIdx);
+			var labelHtml=document.createElement("label");
+			labelHtml.setAttribute("for","qnChoice-"+inpIdx);
+			labelHtml.innerHTML=o;
+			optDiv.appendChild(inputHtml);
+			optDiv.appendChild(labelHtml);
+			inputDoms[inpIdx]=inputHtml;
+			inpIdx++;
+		});
+		$(optDiv).trigger("create");
+	})()
 
 	this.getAns=function(){
 		for(var i=0; i<inputDoms.length; i++){
