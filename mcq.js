@@ -1,8 +1,8 @@
-qnSetParamsEng=function(div){
+qnSetParamsEng=function(div){ // change to modAuthorEng
 
 }
 
-qnAppEng=function(optDiv,params){
+qnAppEng=function(optDiv,params){ //change to modAppEng
 	var inputDoms;
 	(function init(){
 		opt=params.options;
@@ -31,6 +31,8 @@ qnAppEng=function(optDiv,params){
 		}
 		return null;
 	};
+	//todo (implement on app side):
+	//this.putAns=function(){}
 	this.grayOut=function(){
 		inputDoms.forEach(function(d){
 			d.disabled=true;
@@ -38,7 +40,7 @@ qnAppEng=function(optDiv,params){
 	}
 }
 
-qnHostEng=function(stemDiv,respDiv,params){
+modWebEng=function(stemDiv,respDiv,params,parentReadyCallback){
 	var opt=params.options, nOpt=opt.length;
 	var data=new Array(nOpt).fill(0);
 	var barInterval=100, barFillRatio=0.85, barColor='#7755ff',
@@ -65,10 +67,10 @@ qnHostEng=function(stemDiv,respDiv,params){
 				return opt[d];
 			})
 		vAxis(vGuide)
+		parentReadyCallback();
 	});
 
 	function update(data){
-		console.log("update");
 		d3Obj.data(data)
 			.enter().append('rect')
 			.style('fill',barColor)
@@ -90,7 +92,7 @@ qnHostEng=function(stemDiv,respDiv,params){
 		optHtml+="</ul>";
 		return optHtml;
 	}
-	this.procAns=function(studentUuid,ans){
+	this.processAns=function(studentUuid,ans){
 		data[ans]++;
 		update(data);
 	}
