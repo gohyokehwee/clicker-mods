@@ -1,41 +1,35 @@
-qnSetParamsEng=function(div){ // change to modAuthorEng
+modAuthorEng=function(div){ 
 
 }
 
-qnAppEng=function(optDiv,params){ //change to modAppEng
+modAppEng=function(optDiv,params){ 
+	// optDiv is a jQuery obj
 	var inputDoms;
 	(function init(){
 		opt=params.options;
-		optDiv.setAttribute("class","ui-radio");
-		var inpIdx=0; inputDoms=[];
-		opt.forEach(function(o){
-			var inputHtml=document.createElement("input");
-			inputHtml.setAttribute("type","radio");
-			inputHtml.setAttribute("name","qnChoice");
-			inputHtml.setAttribute("id","qnChoice-"+inpIdx);
-			inputHtml.setAttribute("value",inpIdx);
-			var labelHtml=document.createElement("label");
-			labelHtml.setAttribute("for","qnChoice-"+inpIdx);
-			labelHtml.innerHTML=o;
-			optDiv.appendChild(inputHtml);
-			optDiv.appendChild(labelHtml);
-			inputDoms[inpIdx]=inputHtml;
-			inpIdx++;
-		});
-		$(optDiv).trigger("create");
+		inputDoms=[];
+		var fsDom=$('<fieldset data-role="controlgroup">');
+		for(var o=0;o<opt.length;o++){
+            fsDom.append('<label for="x'+o+'"> '+opt[o]+' </label>');
+            inputDoms[o]=$('<input type="radio" name="a" id="x'+o+'">');
+            fsDom.append(inputDoms[o]);
+		}
+        optDiv.append(fsDom);
+        optDiv.trigger("create");
 	})()
 
 	this.getAns=function(){
 		for(var i=0; i<inputDoms.length; i++){
-			if(inputDoms[i].checked){return i;}
+			if(inputDoms[i].prop('checked')){return i;}
 		}
 		return null;
 	};
-	//todo (implement on app side):
-	//this.putAns=function(){}
+	this.putAns=function(currAns){
+		inputDoms[currAns].attr("checked","checked").checkboxradio("refresh");
+	}
 	this.grayOut=function(){
-		inputDoms.forEach(function(d){
-			d.disabled=true;
+		inputDoms.forEach(function(inputDom){
+			inputDom.prop('disabled',true).checkboxradio("refresh");
 		});
 	}
 }
